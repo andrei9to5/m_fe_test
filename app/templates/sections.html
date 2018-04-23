@@ -1,0 +1,18 @@
+<div class="menu">
+    <a ng-repeat="section in sections" href="#!/section/{{section.slug}}">{{section.name}}</a>
+    <input type="text" ng-model="sectionsController.searchTerm"
+           ng-change="sectionsController.onSearchInput()" placeholder="Search.." >
+</div>
+
+<div ng-repeat="article in articles" style="border:solid 1px #ccc;padding:2px">
+    <h3>{{article.title}} by {{article.author}}</h3>
+    <h4>{{article.date}}</h4>
+
+    <div><img ng-src={{article.image}} /></div>
+    <p>{{article.synopsis}}</p>
+    <a href="#!/section/{{sectionSlug}}/article/{{article.slug}}">Read more</a>
+</div>
+
+<button ng-if="sectionsController.total > sectionsController.limit + sectionsController.skipped"
+        ng-click="sectionsController.showMore()">Load more...</button>
+
