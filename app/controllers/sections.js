@@ -83,7 +83,7 @@ angular.module('minditTest.sections', ['ngRoute'])
 
             var filter = function(array) {
                 if (controller.searchTerm && controller.searchTerm.trim().length >= 4) {
-                    return array.filter(e=> controller.searchTerm.split` `.every(t => e.title.toLowerCase().indexOf(t.toLowerCase()) >= 0 || e.author.toLowerCase().indexOf(t.toLowerCase()) >= 0));
+                    return array.filter(e=> controller.searchTerm.split` `.every(t => e.title.toLowerCase().includes(t.toLowerCase()) || e.author.toLowerCase().includes(t.toLowerCase())));
                 }
 
                 return array;
