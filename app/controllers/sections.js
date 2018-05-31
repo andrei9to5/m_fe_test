@@ -3,7 +3,7 @@
 angular.module('minditTest.sections', ['ngRoute'])
     .controller('SectionsController', ['$scope', '$rootScope', '$routeParams', '$q', 'ContentfulService' ,
         function($scope, $rootScope, $routeParams, $q, contentfulService) {
-            var controller = this;
+            const controller = this;
 
             contentfulService.getContent('content_type=section' +
                 '&select=fields.name,fields.slug' +
@@ -17,16 +17,16 @@ angular.module('minditTest.sections', ['ngRoute'])
             $scope.sectionSlug = $routeParams.sectionSlug;
             $scope.articles = [];
 
-            var allArticles = [];
+            let allArticles = [];
 
-            var getSectionInfo = function() {
-                var promise = $q.defer();
+            const getSectionInfo = function() {
+                let promise = $q.defer();
                 contentfulService.getContent('content_type=section' +
                     '&select=fields.slug,fields.name,sys.id,fields.metadescription,fields.metakeywords')
                     .then(function (data) {
-                        var section;
+                        let section;
                         if (!!$scope.sectionSlug) {
-                            section = data.items.filter(e => e.fields.slug == $scope.sectionSlug)[0];
+                            section = data.items.filter(e => e.fields.slug === $scope.sectionSlug)[0];
                         } else {
                             section = data.items[0];
                         }
@@ -44,7 +44,7 @@ angular.module('minditTest.sections', ['ngRoute'])
                 return promise.promise;
             };
 
-            var getArticles = function() {
+            const getArticles = function() {
                 contentfulService.getContent('content_type=article' +
                     '&fields.section.sys.id=' + controller.sectionId +
                     '&select=fields.author,fields.slug,fields.synopsis,fields.title,fields.date,fields.synopsis,fields.image,sys.id' +
@@ -52,7 +52,7 @@ angular.module('minditTest.sections', ['ngRoute'])
                     '&skip=' + controller.skipped +
                     '&order=-sys.createdAt')
                     .then(function (data) {
-                        var newArticles = data.items.map(e => e.fields);
+                        let newArticles = data.items.map(e => e.fields);
 
                         newArticles.forEach(e => {
                             requestImage(e.image.sys.id).then(function(data) {
@@ -67,7 +67,7 @@ angular.module('minditTest.sections', ['ngRoute'])
                     });
             };
 
-            var requestImage = function(imageId) {
+            const requestImage = function(imageId) {
                 return contentfulService.getAsset(imageId);
             };
 
@@ -81,7 +81,7 @@ angular.module('minditTest.sections', ['ngRoute'])
                 getArticles();
             };
 
-            var filter = function(array) {
+            const filter = function(array) {
                 if (controller.searchTerm && controller.searchTerm.trim().length >= 4) {
                     return array.filter(e=> controller.searchTerm.split` `.every(t => e.title.toLowerCase().includes(t.toLowerCase()) || e.author.toLowerCase().includes(t.toLowerCase())));
                 }
